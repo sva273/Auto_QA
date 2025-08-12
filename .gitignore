@@ -12,6 +12,9 @@
 # Icon must end with two \r
 Icon
 
+# Ignore PyCharm project files
+.idea/
+
 
 # Thumbnails
 ._*
