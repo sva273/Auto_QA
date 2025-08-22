@@ -14,7 +14,7 @@ driver.fullscreen_window()
 # Открытие сайта
 driver.get("https://itcareerhub.de/ru")
 
-about_link = driver.find_element(By.LINK_TEXT, "О нас")
+about_link = driver.find_element(By.LINK_TEXT, "Способы оплаты")
 about_link.click()
 # Задержка перед закрытием браузера
 sleep(10)
