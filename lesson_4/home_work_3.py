@@ -25,28 +25,22 @@ def test_logos_displayed(driver):
         assert logo.is_displayed(), "Один из логотипов не отображается"
 
 
-def test_link_programm(driver):
-    link = driver.find_element(By.LINK_TEXT, "Программы")
-    assert link.is_displayed(), "Ссылка 'Программы' не отображается"
-
-def test_link_payment(driver):
-    link = driver.find_element(By.LINK_TEXT, "Способы оплаты")
-    assert link.is_displayed(), "Ссылка 'Способы оплаты' не отображается"
-
-
-def test_link_news(driver):
-    link = driver.find_element(By.LINK_TEXT, "Новости")
-    assert link.is_displayed(), "Ссылка 'Новости' не отображается"
+@pytest.mark.parametrize("link_text", [
+    "Программы",
+    "Способы оплаты",
+    "Новости",
+    "О нас",
+    "Отзывы"
+])
 
 
-def test_link_about(driver):
-    link = driver.find_element(By.LINK_TEXT, "О нас")
-    assert link.is_displayed(), "Ссылка 'О нас' не отображается"
+def test_links_displayed(driver, link_text):
+    link = WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.LINK_TEXT, link_text))
+    )
+    assert link.is_displayed(), f"Ссылка '{link_text}' не отображается"
 
 
-def test_link_reviews(driver):
-    link = driver.find_element(By.LINK_TEXT, "Отзывы")
-    assert link.is_displayed(), "Ссылка 'Отзывы' не отображается"
 
 def test_language_buttons(driver):
     # RU кнопка
@@ -68,15 +62,18 @@ def test_contact_form_text(driver):
     popup_button = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.CSS_SELECTOR, "a[href='#popup:form-tr3']"))
     )
-
     driver.execute_script("arguments[0].scrollIntoView(true);", popup_button)
     driver.execute_script("arguments[0].click();", popup_button)
 
-    contact_text_elem = WebDriverWait(driver, 20).until(
-        EC.presence_of_element_located((By.CSS_SELECTOR, "div.t-popup_show div.tn-atom[field='tn_text_1711363912027']"))
+    popup = WebDriverWait(driver, 20).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "div.t-popup_show"))
     )
 
-    contact_text = driver.execute_script("return arguments[0].innerText;", contact_text_elem)
+    contact_text_elem = popup.find_element(By.XPATH, ".//div[string-length(text()) > 0]")
+
+    contact_text = contact_text_elem.text.strip().splitlines()[0]
 
     expected_text = "Если вы не дозвонились, заполните форму на сайте. Мы свяжемся с вами"
-    assert contact_text.strip() == expected_text, f"Ожидалось: '{expected_text}', найдено: '{contact_text}'"
+    assert contact_text == expected_text, (
+        f"Ожидалось: '{expected_text}', найдено: '{contact_text}'"
+    )
