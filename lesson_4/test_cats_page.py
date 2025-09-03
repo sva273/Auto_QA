@@ -11,7 +11,9 @@ def driver():
     # Инициализация WebDriver
     driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     # Максимизация окна
+    driver.implicitly_wait(10)
     driver.maximize_window()
+    driver.get("https://suninjuly.github.io/cats.html")
     # Передача драйвера в тест
     yield driver
     # Закрытие браузера
@@ -19,17 +21,10 @@ def driver():
 
 
 
-# def test_open_cats_page(driver):
-#     # Открытие сайта
-#     driver.get("https://suninjuly.github.io/cats.html")
-#     page_header = driver.find_element(By.CSS_SELECTOR, "[class='jumbotron-heading']")
-#     assert page_header.text == "Cat memes"
-
 #Check that name of the second cat card is "Serious Cat"
 def test_name_of_second_cat(driver):
-    driver.get("https://suninjuly.github.io/cats.html")
-    second_cat = driver.find_element(By.CSS_SELECTOR, "p.card-text.second")
-    assert second_cat.text == "Serious cat"
+    page_header = driver.find_element(By.CSS_SELECTOR, "[class='jumbotron-heading-55']")
+    assert page_header.text == "Serious cat"
 
 
 def test_name_of_second_cat2(driver):

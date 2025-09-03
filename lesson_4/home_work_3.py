@@ -72,8 +72,6 @@ def test_contact_form_text(driver):
     driver.execute_script("arguments[0].scrollIntoView(true);", popup_button)
     driver.execute_script("arguments[0].click();", popup_button)
 
-    time.sleep(1)
-
     contact_text_elem = WebDriverWait(driver, 20).until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "div.t-popup_show div.tn-atom[field='tn_text_1711363912027']"))
     )
