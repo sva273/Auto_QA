@@ -32,12 +32,9 @@ def test_second_paragraph_in_iframe(driver):
     wait = WebDriverWait(driver, 10)
 
     iframes = wait.until(EC.presence_of_all_elements_located((By.TAG_NAME, "iframe")))
-    assert len(iframes) > 0, "На странице нет iframe"
-    print(f"Найдено {len(iframes)} iframe на странице")
 
     for i, frame in enumerate(iframes, start=1):
         src = frame.get_attribute("src")
-        print(f"iframe {i} src={src}")
 
     target_text = "semper posuere integer et senectus justo curabitur."
     print(f"Логически проверяем, что текст '{target_text}' находится внутри iframe")

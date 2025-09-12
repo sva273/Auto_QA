@@ -19,15 +19,8 @@ def driver():
 
 def test_drag_and_drop(driver):
     wait = WebDriverWait(driver, 10)
-
-    try:
-        consent_btn = wait.until(
-            EC.element_to_be_clickable((By.XPATH, "//p[@class='fc-button-label' and text()='Соглашаюсь']"))
-        )
-        consent_btn.click()
-        wait.until(EC.invisibility_of_element(consent_btn))
-    except:
-        pass
+    accept_button = wait.until(EC.visibility_of_element_located((By.XPATH, "(//p[@class='fc-button-label'])[1]")))
+    accept_button.click()
 
     iframe = wait.until(
         EC.presence_of_element_located((By.CSS_SELECTOR, "iframe.demo-frame"))
@@ -45,7 +38,7 @@ def test_drag_and_drop(driver):
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#trash li")))
 
     trash_items = driver.find_elements(By.CSS_SELECTOR, "#trash li")
-    assert len(trash_items) == 1, f"Ожидалось 1 фото в корзине, найдено {len(trash_items)}"
+    assert len(trash_items) == 1
 
     gallery_items = driver.find_elements(By.CSS_SELECTOR, "#gallery li")
-    assert len(gallery_items) == 3, f"Ожидалось 3 фото в галерее, найдено {len(gallery_items)}"
+    assert len(gallery_items) == 3
