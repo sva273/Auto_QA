@@ -33,7 +33,7 @@ class TestAllItemsCost:
         # Переход в корзину и оформление заказа
         self.inventory_page.go_to_cart()
         self.cart_page.proceed_to_checkout()
-        self.checkout_page.fill_checkout_information("John", "Doe", "12345")
+        self.checkout_page.fill_checkout_information("Slava", "Schwab", "09210")
         self.checkout_page.continue_checkout()
         total_price = self.checkout_page.get_total_price()
         assert total_price == "$58.29", f"Итоговая сумма неверна: {total_price}"
